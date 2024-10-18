@@ -16,6 +16,7 @@ import {
 import { Request, Response } from 'express';
 import { UserDataType_DTO } from './User.dto';
 import { UserService } from './User.Service';
+import { TrimPipe } from 'src/customPipe/trim.pipe';
 
 @Controller('users') // http://localhost:3000/users
 export class UserController {
@@ -36,7 +37,7 @@ export class UserController {
 
   /* getUserById at param */
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number) {
+  getUserById(@Param('id', TrimPipe, ParseIntPipe) id: number) {
     return this.userService.getUserById(id);
   }
 

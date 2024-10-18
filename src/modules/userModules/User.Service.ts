@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserDataType_DTO } from './User.dto';
 
 const usersDB = [
@@ -18,7 +18,7 @@ export class UserService {
   getUserByQuery(name: string) {
     const user = usersDB.find((user) => user.name === name);
     if (!user) {
-      return 'user not found';
+      throw new NotFoundException('user not found');
     }
     return user;
   }
@@ -26,7 +26,7 @@ export class UserService {
   getUserById(id: number) {
     const user = usersDB.find((user) => user.id === Number(id));
     if (!user) {
-      return 'user not found';
+      throw new NotFoundException('user not found');
     }
     return user;
   }
