@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { UserDataType_DTO } from './User.dto';
 
 const usersDB = [
@@ -9,7 +9,9 @@ const usersDB = [
 
 @Injectable()
 export class UserService {
+  constructor(@Inject('DB_URI') private dbUri: string) {}
   getUsers() {
+    console.log('🚀 ~ UserService ~ dbUri:', this.dbUri);
     return usersDB;
   }
 

@@ -17,12 +17,6 @@ import { Request, Response } from 'express';
 import { UserDataType_DTO } from './User.dto';
 import { UserService } from './User.Service';
 
-const usersDB = [
-  { id: 1, name: 'John' },
-  { id: 2, name: 'Jane' },
-  { id: 3, name: 'Joe' },
-];
-
 @Controller('users') // http://localhost:3000/users
 export class UserController {
   constructor(private readonly userService: UserService) {}

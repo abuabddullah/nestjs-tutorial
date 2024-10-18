@@ -3,7 +3,17 @@ import { UserController } from './User.Controller';
 import { UserService } from './User.Service';
 
 @Module({
-  providers: [UserService], // == {provide: UserService,useValue: UserService,},
+  providers: [
+    // UserService, // => { provide: UserService, useClass: UserService }
+    {
+      provide: UserService,
+      useClass: UserService,
+    },
+    {
+      provide: 'DB_URI',
+      useValue: 'mongodb://localhost:27017/nestjs-tutorial',
+    },
+  ],
 
   controllers: [UserController],
 })
