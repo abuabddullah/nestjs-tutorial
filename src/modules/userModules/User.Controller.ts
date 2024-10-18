@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   Redirect,
@@ -13,7 +14,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { UserDataType_DTO } from './user.dto';
+import { UserDataType_DTO } from './User.dto';
+import { UserService } from './User.Service';
 
 const usersDB = [
   { id: 1, name: 'John' },
@@ -23,41 +25,32 @@ const usersDB = [
 
 @Controller('users') // http://localhost:3000/users
 export class UserController {
+  constructor(private readonly userService: UserService) {}
   /* getAllUsers */
   @Get()
   @Header('Cache-Control', 'none')
   getUsers() {
-    return usersDB;
+    return this.userService.getUsers();
   }
 
   /* getUserByQuery at query*/
   @Get('by-name')
   getUserByQuery(@Query('name') name: string) {
     console.log('🚀 ~ UserController ~ getUserByQuery ~ name:', name);
-    const user = usersDB.find((user) => user.name === name);
-    if (!user) {
-      return 'user not found';
-    }
-    return user;
+    return this.userService.getUserByQuery(name);
   }
 
   /* getUserById at param */
   @Get(':id')
-  getUserById(@Param('id') id: string) {
-    const user = usersDB.find((user) => user.id === Number(id));
-    if (!user) {
-      return 'user not found';
-    }
-    return user;
+  getUserById(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.getUserById(id);
   }
 
   /* POST user */
   @Post()
   @HttpCode(HttpStatus.CREATED)
   postUser(@Body() userFromBody: UserDataType_DTO) {
-    usersDB.push(userFromBody);
-    console.log('🚀 ~ UserController ~ postUser ~ usersDB:', usersDB);
-    return userFromBody;
+    return this.userService.postUser(userFromBody);
   }
 
   /* get redirected to another route while accessing "/users" */
