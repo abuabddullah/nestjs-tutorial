@@ -1,6 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './modules/userModules/User.module';
 import { APP_PIPE } from '@nestjs/core';
 
 @Module({
@@ -8,7 +7,6 @@ import { APP_PIPE } from '@nestjs/core';
     MongooseModule.forRoot(
       `mongodb+srv://asifaowadud:sof6vxfRNfUEvdCg@cluster0.gjcwx8p.mongodb.net/nestjs_tutorial?retryWrites=true&w=majority&appName=Cluster0`,
     ), // MongoDB Atlas connection
-    UserModule,
   ],
   providers: [
     {
